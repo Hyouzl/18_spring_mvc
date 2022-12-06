@@ -3,13 +3,17 @@ package com.spring.mvc.dataTransfer.controller;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.spring.mvc.dataTransfer.dto.MemberDto;
@@ -136,10 +140,19 @@ public class ControllerToView {
 	 *
 	 */
 	
+	@RequestMapping(value = "/responseBodyEx", method = RequestMethod.GET)
+	public @ResponseBody String responseBodyEx() {
+		
+		//String data = "<h1>data</h1>";
+		
+		String data = "<script>";
+				data += "alert('success');";
+				data += "location.href='modelEx';";
+				data += "</script>";
+		
+		return data;
+	}
 	
-	
-
-
 
 	/*
 	 *
@@ -159,15 +172,65 @@ public class ControllerToView {
 	 *
 	 *
 	 */
+	
+	@RequestMapping(value="/responseEntityEx" , method=RequestMethod.GET)
+	public ResponseEntity<Object> responseEntityEx() {
 
-	/*
-	 *
-	 *	# 예시 6) RestController 이용 
-	 *	
-	 *	- ResponseBody와 기능이 같으며 헤더와 상태 코드를 제외한 html 본문만 전송한다.
-	 *	- 클래스에 @RestController어노테이션을 작성하여 구현한다. 
-	 *
-	 */
+	
+		// 1)
+			
+		
+			//return new ResponseEntity<Object>(HttpStatus.OK);
+			
+		
+		// 2)
+			
+		
+			//return new ResponseEntity<Object>("<h1>html data</h1>",HttpStatus.OK);
+		
+		
+		// 3)
+		
+
+			String data = "<h1>html페이지를 반환합니다.</h1>";
+			HttpHeaders header = new HttpHeaders();
+			//contentType="text/html; charset=UTF-8" 
+			header.add("Content-Type", "text/html; charset=UTF-8");
+			return new ResponseEntity<Object>(data, header ,HttpStatus.OK);
+		
+	
+	}
+	
+	
+	
+	
 	
 	
 }
+
+
+/*
+ *
+ *	# 예시 6) RestController 이용 
+ *	
+ *	- ResponseBody와 기능이 같으며 헤더와 상태 코드를 제외한 html 본문만 전송한다.
+ *	- 클래스에 @RestController어노테이션을 작성하여 구현한다. 
+ *
+ */
+
+@RestController
+class RestControllerEx {
+	
+	@RequestMapping(value="/restControllerEx", method=RequestMethod.GET)
+	public String restControllerEx() {
+		
+		String data = "<script>";
+		data += "alert('success');";
+		data += "location.href='modelEx';";
+		data += "</script>";
+
+		return data;
+		
+	}
+}
+
