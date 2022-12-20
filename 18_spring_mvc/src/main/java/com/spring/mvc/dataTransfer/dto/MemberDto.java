@@ -50,5 +50,13 @@ public class MemberDto {
 	public void setResidence(String residence) {
 		this.residence = residence;
 	}
+	
+	@Override
+	public String toString() {
+		return "MemberDto [memberId=" + memberId + ", memberName=" + memberName + ", memberGender=" + memberGender
+				+ ", hp=" + hp + ", email=" + email + ", residence=" + residence + "]";
+	}
+	
+	
 
 }
